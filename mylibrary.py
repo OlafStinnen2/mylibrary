@@ -242,3 +242,69 @@ print(my2DList[0])
 #printing a single piece of data:
 print(my2DList[1][2])
 # This code outputs 'PC'. It's Sian's computing preferene from list 1 (first square bracket), item 2 (second square bracket)
+
+#append()
+row = [items to be added to list, next variable,...]
+list.append(row)
+
+#2D Dictionanries
+dictName[RowKeyName] =
+        { KeyName  : Key Value,
+          NextKeyName : Next Value
+        }
+#The key is the name of the beast, but the value is a whole new dictionary that contains the details of the beast.
+
+#Each key:value pair in the dictionary is now a key that accesses a related dictionary. See prettyPrint function:
+def prettyPrint():
+  print()
+
+  for key, value in clue.items():
+    # moves along every 'key:subDictionary' pair and outputs the key (the name of the character).
+    print(key, end=": ")
+    for subKey, subValue in value.items():
+      # (nested) `for` loop moves along every subkey and subvalue in each subDictionary.
+      print(subKey, subValue, end=" | ")
+    print()
+
+# To access one item (=subdictionary), use two square brackets [] to see RowKeyName results
+print(dictName["RowKeyName"])
+
+# To access one subkey item (=subdictionary), use first [] to reference to SubKeyName with [] to get SubKeyVAlue
+print(dictName["RowKeyName"][KeyName])
+
+#Saving to files
+#Creating a new file:
+f = open( fileName, Mode)
+
+
+#The variable (f): This is needed to allow your program to communicate to the file. Normally this would have a lovely meaningful name. However, you will need to type this variable name lots, and lots, and lots. So short is good. 'f' is short for 'file'.
+
+#The file name (the first item in brackets, "savedFile.txt"): You MUST code this to match the filename EXACTLY and include the file extension.
+
+#The 'w' (second item in brackets): This sets the permissions for the file. 'w' means 'write'. This means that if the file doesn't already exist, the program will create a new blank file with that file name. However, if it does already exist it will be overwritten with a blank file.
+
+#Writing Data To File
+f.write( Data to be put in the file)
+# This will write to the file, each time it's called it will add to the bottom and can be called as many times you want
+
+#The data should be a sring, ideally so cast it with str() if you get errors
+
+#Until now, the data is still in the ram. Noting gets saved until we close the file via .close()
+f = open("savedFile.txt", "w")
+f.write("Hello there")
+f.close()
+#Prenventing Overwrite
+#We're going to change the file permissions from 'w' to 'a+'.
+
+#'a' means append - add to the end of the file.
+
+#However, if the file doen't exist, then it will crash.
+
+#'a+' means 'add to the end of the file, or create a new one if it doesn't exist'.
+
+#To add it to a NEW line a the end fo the file,  I've used the \n new line character.
+
+f = open("savedFile.txt", "a+")
+whatText = input("> ")
+f.write(f"{whatText}\n")
+f.close()
