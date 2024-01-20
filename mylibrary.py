@@ -308,3 +308,63 @@ f = open("savedFile.txt", "a+")
 whatText = input("> ")
 f.write(f"{whatText}\n")
 f.close()
+
+#Reading from a file
+f=open( filename, Mode)
+#f is a variable that points to the copy of the file
+#filename can be anything with any extension
+#Mode for 'r' for read only
+f = open("filenames.list", "r")
+contents = f.read()
+f.close()
+# We need a variable 'contents' to store the contents of the file otherwise it will be descarded
+#f.read() reads all of the content of the file as a string
+#f.close closes the copy of the file and frees up our temporary memory
+
+#Bringing everything in in one go is fine, but it would be much more useful to have it as separate items so we can examine it more easily.
+
+#To do this, use the .split() function in the second to last line. This splits the string into a list of individual elements.
+f = open("filenames.list", "r")
+contents = f.read()
+f.close()
+
+contents = contents.split() #added split here
+
+print(contents)
+#myString.split() breaks a string up into a List, using newlines to create each row of the list
+
+#eading all the data at once is fine, reading one item at a time works slightly differently.
+
+#It uses the .readline() function.
+
+#The code below reads one line from the file.
+
+f = open("filenames.list","r")
+contents = f.readline()
+print(contents)
+
+f.close()
+
+#Looping through lines of a file:
+f = open("filenames.list","r")
+while True:
+  contents = f.readline().strip()
+
+  if contents == "":
+    break
+  #The last line in the file will be a blank
+  #We break the loop if the line read is a blank
+
+  print(contents)
+  # Moved the print after the break so it won't output the final blank line.
+
+f.close()
+#replit coach uses eval() function to read a list from a file as string "[1,2,3,,..]" with the eval() function converting the string into pyhton list. However, it is a bit dangerous to use eval() because it can run malicious code if used with an input function
+myStuff = []
+
+f = open("Stuff.mine","r")
+myStuff = eval(f.read())
+f.close()
+
+for row in myStuff:
+  print(row)
