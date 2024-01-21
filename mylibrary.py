@@ -474,3 +474,125 @@ def factorial(value):
      # if we're not at the stop condition.
 
 print(factorial(5))
+
+#Timefunction:
+datetime
+import datetime
+
+myDate = datetime.date(year=2022, month=12, day= 7)
+
+print(myDate)
+
+# This code outputs '2022-12-07'
+#datetime.time -> returns a new data type - an actual date
+datetime.time( year= any year, month= any month, day= any day)
+
+#Asking For A Date:
+import datetime
+
+today = datetime.date.today()
+
+print(today)
+
+# This code outputs the current date from your computer's clock.
+
+#Getting data input:
+import datetime
+
+day = int(input("Day: ")) # Get all input as numbers. We're not at text input for months yet.
+month = int(input("Month: "))
+year = int(input("Year: "))
+
+date = datetime.date(year, month, day)
+
+print(date)
+
+#A common task in programs is to work out the difference between two dates, for example to calculate someone's age via timedelta()
+import datetime
+
+today = datetime.date.today() # Today's date
+
+difference = datetime.timedelta(days=14) # The difference I want
+
+newDate = today + difference # Add today to the delta difference to see the date in 14 days time.
+
+print(newDate)
+
+#If statements with days:
+import datetime
+
+today = datetime.date.today() # Today's date
+
+holiday = datetime.date(year = 2022, month = 10, day = 30) # The date of my holiday
+
+if holiday > today: # If my holiday is in the future
+  print("Coming soon")
+elif holiday < today: #If my holiday date has passed
+  print("Hope you enjoyed it")
+else: # If my holiday date is today
+  print("HOLIDAY TIME!")
+
+#Replit DB:
+#Storing data:
+#db[KeyName] = KeyValue :
+from replit import db
+
+db["test"] = "Hello there"
+
+#Print all keys:
+from replit import db
+
+keys = db.keys()
+print(keys)
+
+#Print one key only:
+from replit import db
+
+value = db["test"]
+print(value)
+
+#Removing data/delete a key:
+from replit import db
+
+del db["test"]
+
+#Accessing data by prefix:
+from replit import db
+
+#set up db:
+db["login1"] = "david"
+db["login2"] = "pamela"
+db["login3"] = "sian"
+db["login4"] = "ian"
+
+#Search fall keys that start with "login"
+matches = db.prefix("login")
+print(matches)
+
+#Keys and dictionaries:
+#This example uses 'david' as the key, and a dictionary as the value. Look at how we can use this to store all of the user data in one key location
+from replit import db
+
+db["david"] = {"username": "dmorgan", "password":"baldy1"}
+
+#List all the keys:
+from replit import db
+
+keys = db.keys()
+print(keys)
+
+#Access individual elements in the dictionary in the normal way:
+from replit import db
+
+value = db["david"]
+print(value["password"])
+
+#Looping Access:
+from replit import db
+
+keys = db.keys()
+#Returns all the keys in the database
+
+for key in keys:
+  print(f"""{key}: {db[key]}""")
+  #prints the key name and prints the key value
