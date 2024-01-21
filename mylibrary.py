@@ -368,3 +368,109 @@ f.close()
 
 for row in myStuff:
   print(row)
+
+#Try ...excerpt
+#All the code that should work goes inside the try.
+#The error messages/instructions to handle any errors running the try code go inside the except.
+myStuff = []
+
+try:
+  f.open("Stuff.mine","r")
+  myStuff = eval(f.read())
+  f.close()
+# Try to find a file called 'Stuff.mine' and open it
+
+except:
+  print("ERROR: Unable to load")
+# If the file can't be found, show the error instead of crashing the whole program
+
+for row in myStuff:
+  print(row)
+
+#We can tell except what type of error(s) to look for. Exception (capital 'E') means 'every type'. I've captured the error type in the 'err' variable and printed it out to tell me what the error is. Here's a list of some built in except error codes.
+myStuff = []
+
+try:
+  f.open("Stuff.mine","r")
+  myStuff = eval(f.read())
+  f.close()
+# Try to find a file called 'Stuff.mine' and open it
+
+except Exception as err:
+  print("ERROR: Unable to load")
+  print(err)
+
+
+for row in myStuff:
+  print(row)
+
+#Traceback:
+#We could even get rid of the 'err' variable entirely and print a traceback, which will show you the red error tracing you see when python crashes.
+
+#I've created a 'debugMode' variable at the top of my code and put the traceback in an if inside the except.
+
+#This lets me show/hide the tracebacks easily by setting debugMode to True/False:
+debugMode = True
+myStuff = []
+
+try:
+  f.open("Stuff.mine","r")
+  myStuff = eval(f.read())
+  f.close()
+# Try to find a file called 'Stuff.mine' and open it
+
+except Exception:
+  print("ERROR: Unable to load")
+
+  if debugMode:
+    print(traceback)
+
+for row in myStuff:
+  print(row)
+
+#CSV files:
+# How to import CSV files
+import csv # Imports the csv library
+
+with open("January.csv") as file: 
+  reader = csv.DictReader(file) # Treats the file as a dictionary 
+  total = 0
+  for row in reader: 
+    print (row["Net Total"])
+    total += float(row["Net Total"]) # Keeps a running total
+
+print(f"Total: {total}") #Outputs
+
+#The os library:
+#listdir() will allow you to list all the files:
+import os
+
+print(os.listdir()) # Lists all the files in the current directory. Useful for checking that a file is in the folder we think it is.
+
+files = os.listdir()
+if "quickSave.txt" not in files:
+  print("Error: Quick Save not found.")
+#Checks if a file is in a directory and outputs an error if not.
+
+#os.mkdir() creates a folder:
+import os
+
+os.mkdir("Hello") # Creates a folder called 'Hello'
+
+#os.rename() takes 2 arguments: the file to rename and the new name.
+import os
+
+os.rename("myname.txt", "NEW.o")
+
+#Recursion:
+#Recursion is a type of program where you get a subroutine to call itself.
+
+def factorial(value):
+  if value == 1:
+    return 1
+    # This `if` provides the 'stop' condition for the program. Otherwise it would run forever.
+  else:
+    return value * factorial(value-1)
+     # if we're not at the stop condition.
+
+print(factorial(5))
