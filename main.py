@@ -1,2 +1,4 @@
-print('Hello', 'World', sep='-')
-print('Python', 'Programming', sep=' -> ')
+import test as tt
+
+print("Countdown")
+tt.countdown()

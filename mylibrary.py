@@ -596,3 +596,88 @@ keys = db.keys()
 for key in keys:
   print(f"""{key}: {db[key]}""")
   #prints the key name and prints the key value
+
+
+#Classes
+#Let's create a template, known as a class. Our theme is animals. Our class will contain all the characteristics (think variables) that animals have in common.
+
+#Remember that this is just a template. All the characteristics are set to 'None' in the template and we will customize these values when we use the template to create (instantiate) each animal. The values will be passed as arguments into the __init__ subroutine inside each animal object.
+
+#We also want to create a subroutine called init (short for initialisation) which tells the class what to do when it is used to create each instance of an animal.
+
+def__init_(self, list of arguments):
+  code here
+
+class animal:
+  species = None
+  name = None
+  sound = None
+  # Sets the characteristics
+
+  def __init__(self, name, species, sound):
+    self.name = name
+    self.species = species
+    self.sound = sound
+  # 'self' means 'this object'
+  # This code sets the name, species and sound of each object to the arguments passed in when it is created (instantiated).
+
+#Instanatiion
+#nstantiation means 'use the template to create an object'. Like pressing the cutter into the dough to make a cookie.
+class animal:
+  species = None
+  name = None
+  sound = None
+  # Sets the characteristics
+  def talk(self):
+    print((f"{self.name} says {self.sound}")) 
+
+  def __init__(self, name, species, sound):
+    self.name = name
+    self.species = species
+    self.sound = sound
+
+##### THE NEW BIT #######
+
+dog = animal("Brian", "Canine", "Woof") # Use the animal class to create a new object called 'dog' with the following parameters.
+
+#Inheritance
+#Inheritance means that we can take the template from animal and break it down into sub-classes that use all the attributes and methods from that class, but also add their own attributes.
+
+#This is useful when we're thinking about animals as we can start breaking the animal kingdom apart by species.
+
+#When I create the sub-class, I use the name of its parent class as a parameter. This means 'get all the features of animal and use them here too'.
+
+#Here, I'm creating a sub-class of bird, which inherits from animal.
+
+#I can then create the 'bird specific' features inside the bird sub-class.
+class animal:
+  species = None
+  name = None
+  sound = None
+  # Sets the characteristics
+
+  def __init__(self, name, species, sound):
+    self.name = name
+    self.species = species
+    self.sound = sound
+  
+  def talk(self):
+    print((f"{self.name} says {self.sound}")) 
+
+##### The New Bit ##########
+
+class bird(animal):
+  color = None
+
+  def __init__(self, color):
+    self.name = "Bird"
+    self.species = "Avian"
+    self.sound = "Tweet"
+    self.color = "Green"
+
+    # This automatically sets the information for each bird when it is created.
+
+
+polly = bird() # Instantiates a new bird which gets it's details from the sub-class.
+
+polly.talk() # polly uses the `talk()` method from the animal class
