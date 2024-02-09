@@ -701,6 +701,11 @@ myButton = tk.Button( text= "Text to Show", command=Subroutine_to_run)
 #No brackets needed on the subroutine name
 #Place button into the window:
 myButton.pack(side = tk.TOP)
+#Creates a text box:
+myText = tk.Text(Window_Name, height=1, width=25)
+myText.pack(side=tk.TOP)
+#Other options to place on TOP is BOTTOM, LEFT, or RIGHT or you can use the grid option. The grid option is laying a grid over the window:
+myText = tk.Text(Window_Name, height=1, width=50).grid(row=1, column=2)
 # Starts the app
 tk.mainloop()
 
