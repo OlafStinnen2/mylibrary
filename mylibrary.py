@@ -681,3 +681,27 @@ class bird(animal):
 polly = bird() # Instantiates a new bird which gets it's details from the sub-class.
 
 polly.talk() # polly uses the `talk()` method from the animal class
+
+#TKinter library -> getting GUI
+import tkinter as tk:
+#Creates the window of the app:
+window = tk.Tk()
+#Set the title of the window:
+window.title("Title of the window")
+#Window size is a string in pixels width x height
+window.geometry("300 x 300")
+# here follows code to set up the app
+# Label text at the top of the window below title:
+hello = tk.Label(text="Hello World")
+#Buttton below the Label:
+button = tk.Button(text="Click me!")
+button.pack()
+#How to get button's to do things: via subroutines:
+myButton = tk.Button( text= "Text to Show", command=Subroutine_to_run)
+#No brackets needed on the subroutine name
+#Place button into the window:
+myButton.pack(side = tk.TOP)
+# Starts the app
+tk.mainloop()
+
+
