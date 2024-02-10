@@ -689,7 +689,7 @@ window = tk.Tk()
 #Set the title of the window:
 window.title("Title of the window")
 #Window size is a string in pixels width x height
-window.geometry("300 x 300")
+window.geometry("300x300")
 # here follows code to set up the app
 # Label text at the top of the window below title:
 hello = tk.Label(text="Hello World")
