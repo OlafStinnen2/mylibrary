@@ -709,4 +709,71 @@ myText = tk.Text(Window_Name, height=1, width=50).grid(row=1, column=2)
 # Starts the app
 tk.mainloop()
 
+# short programm with subroutine to collect username and password and another subroutine to perform the login action
+from replit import db  # Importing the database from replit
+import os, time, random  # Importing os for system operations, time for delays, and random for generating salts
 
+# Function to add a new user to the database
+def add_user():
+  username = input("Username: >")  # Prompting for username
+  password = input("Password: >")  # Prompting for password
+  salt = random.randint(1,9999)  # Generating a random salt
+  password = f"{password}{salt}"  # Appending salt to password
+  password = hash(password)  # Hashing the password with salt
+  if username in db:  # Checking if username already exists in database
+    print("Username already in database")  # Informing user about existing username
+    return
+  else:  
+    db[username]={"password": password, "salt":salt}  # Adding new user to database
+  return
+
+# Function for user login
+def login():
+  username = input("Username: >")  # Prompting for username
+  password = input("Password: >")  # Prompting for password
+  if username not in db.keys():  # Checking if user exists in database
+    print("User does not exist.")
+    print("Login not succssful")
+    return
+  password = f"{password}{db[username]['salt']}"  # Appending user's salt to entered password
+  password = hash(password)  # Hashing the password with salt
+  if password == db[username]["password"]:
+    print("Login successful")  # Login success message
+  else:
+    print("Login not succssful")  # Login failure message
+  return
+
+# Main program loop handling user input and actions
+try:
+  while True:
+    time.sleep(1)  # Adding a delay of one second
+    os.system("clear")  # Clearing the console screen
+    print("🌟Login System🌟")  # Printing the title of the system
+
+    choice = input("1: Add User, 2: Login, 3: Terminate 4: Print Database>")
+
+    if choice == "1":
+      print("Choice 1")
+      add_user()
+
+    elif choice == "2":
+      print("Choice 2")
+      login()
+
+    elif choice == "3":
+      print("Program Terminated")
+
+      break
+    elif choice == "4":
+
+      if not db.keys():
+        print("Database is empty.")
+      else:
+          for key in db.keys():
+            print(f"{key}: {db[key]}")
+    else: 
+      print("Wrong input")
+
+
+except KeyboardInterrupt:
+  print("\nProgram exited by user.")
