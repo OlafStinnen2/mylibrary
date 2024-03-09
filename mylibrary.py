@@ -777,3 +777,53 @@ try:
 
 except KeyboardInterrupt:
   print("\nProgram exited by user.")
+
+
+# html chapter
+# Each page constructed by a number of tags
+#myWebPage.html
+<html>
+  <body>
+    <p> Hi /<p>
+  <body>
+<html>
+# In replit you have the feature of creating a file with the ".html" as ending. This page is supported by a couple replit features for html files The html page is then hosted on replit infrastructure and available from the Internet
+ # Typical html structure is to wrap everything with a tag at the beginnin and at the end
+#Starts the tag, everything after this point is in the tag
+ <tagName>
+ Stuff in the tag
+</tagName>
+ #Ends the tag. This stops the effect of the tag of any further code
+ #HTML page example
+<html>
+#Starts the page
+<head>
+    # Hold the information that won't be visible
+  <title>
+  #What's goiong to be shown as the tab name
+
+  </title>
+
+</head>
+
+#body contains all the stuff that is visible
+<body>
+
+#Creates a heading with h1 largest heading and h6, the smallest
+  <h1>This is a heading</h1> 
+  <h2>This is a sub-heading</h2>
+
+#Creates a normal text paragraph in standard fond and standard color. Each new paragraph needs new tags
+   <p>
+     This is normal text
+   </p>
+#If you want to include images you need to drop the picture in the source code folder. Pictures must be of format .jpg. And there is no closing tag
+#   <img src="picture.jpg" width="100" height="100">
+
+#you can include arguments into the img like width and height and provide numbers like percantage or pixels -> 7.44
+
+   
+</body>
+
+ #Ends the page
+</html>
