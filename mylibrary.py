@@ -820,9 +820,43 @@ except KeyboardInterrupt:
 #If you want to include images you need to drop the picture in the source code folder. Pictures must be of format .jpg. And there is no closing tag
 #   <img src="picture.jpg" width="100" height="100">
 
-#you can include arguments into the img like width and height and provide numbers like percantage or pixels -> 7.44
+#you can include arguments into the img like width and height and provide numbers like percantage or pixels
+# you can add unordered lists with bullet points or ordered list with numbers
+   #This is an unordered list
+   <ul>
+     # per each bullet point you need an opening and a closing li tag. Everything between these two tags is on one line 
+     <li>
+       bullet 1
+       bullet 2
+       bullet 3
+     </li>
+    # Here starts the the second bullet point
+     <li>
+       bullet 2
+     </li>
+     <li>
+       bullet 3
+     </li>
+   </ul>
 
-   
+#This is an oderred list that starts with "1.".... and so on
+   <ol>
+     <li>
+       bullet 1
+       bullet 2
+       bullet 3
+     </li>
+     <li>
+       bullet 2
+     </li>
+     <li>
+       bullet 3
+     </li>
+   </ol>
+
+#Finally, we have the referencing to other web pages via the anker tag
+#This is a link to a page in the same folder/repository. The text between the paragraph tag is shown on the webpage and linked to what is between the anchor tab.
+  <p><a href=page2.html>Go to page 2</a></p>
 </body>
 
  #Ends the page
