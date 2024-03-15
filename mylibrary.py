@@ -803,7 +803,8 @@ except KeyboardInterrupt:
   #What's goiong to be shown as the tab name
 
   </title>
-
+  #Link to a style sheet in CSS
+  <link href="style.css" rel="stylesheet" type="text/css" />
 </head>
 
 #body contains all the stuff that is visible
@@ -817,6 +818,9 @@ except KeyboardInterrupt:
    <p>
      This is normal text
    </p>
+
+#To format this paragraph a class defintion with name ".blurb" is used from style.css sheet
+   <p class="blurb">The continuation of the epic website showing the best of the bald bunch.</p>
 #If you want to include images you need to drop the picture in the source code folder. Pictures must be of format .jpg. And there is no closing tag
 #   <img src="picture.jpg" width="100" height="100">
 
