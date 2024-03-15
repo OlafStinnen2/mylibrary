@@ -1,3 +1,15 @@
+/* There is a good tutorial on CSS in https://www.w3schools.com/css/default.asp/ */
+
+/* The structure is always like this:
+This will apply the style to all tags in the html with the Name "tagName" and followed by list of properties and their values
+
+tagName {
+  property: value;
+}
+
+*/
+
+
 html, body {
   height: 100%; /* Set the height of the html and body to 100% */
   width: 100%; /* Set the width of the html and body to 100% */

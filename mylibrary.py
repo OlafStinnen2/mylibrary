@@ -803,7 +803,7 @@ except KeyboardInterrupt:
   #What's goiong to be shown as the tab name
 
   </title>
-  #Link to a style sheet in CSS
+  #Link to a style sheet in CSS with filename "style.css"
   <link href="style.css" rel="stylesheet" type="text/css" />
 </head>
 
@@ -865,3 +865,59 @@ except KeyboardInterrupt:
 
  #Ends the page
 </html>
+
+#CSS style sheet example:
+
+# There is a good tutorial on CSS in https://www.w3schools.com/css/default.asp/ */
+
+# The structure is always like this:
+#This will apply the style to all tags in the html with the Name "tagName" and followed by list of properties and their values
+
+tagName {
+  property: value;
+}
+
+*/
+
+
+html, body {
+  height: 100%; #/* Set the height of the html and body to 100% */
+  width: 100%; #/* Set the width of the html and body to 100% */
+  background-color: #e4e2e2;
+  # Set the background color */
+}
+
+h1, h2{
+  font-family: sans-serif; #/* Specify the font family */
+  font-size: 24px; #/* Set the font size for h1 and h2 */
+  color: blue; #/* Set the text color */
+  background-color: #d3d345; #/* Set the background color for h1 and h2 */
+  text-align:center; #/* Align the text to the center */
+}
+
+h2{
+  font-size: 12px; #/* Set the font size for h2 */
+
+}
+
+p{
+  font-family: sans-serif; #/* Specify the font family for paragraphs */
+  font-size: 10px; #/* Set the font size for paragraphs */
+  color: blue; #/* Set the text color for paragraphs */
+  text-align:center; #/* Align the text to the center for paragraphs */
+
+}
+
+img{
+  display: block; #/* Display images as block elements */
+  margin-left: auto; #/* Center align images horizontally */
+  margin-right: auto; #/* Center align images horizontally */
+  width: 50%; #/* Set the width of images to 50% */
+
+}
+
+#/* This is a classe definition used to define properties in html file for a paragraph <p class"blurb"> test </p>*/
+.blurb{
+  font-style: italic; #/* Make the text italic */
+  font-weight: bold; #/* Make the text bold */
+}
