@@ -709,6 +709,39 @@ myText = tk.Text(Window_Name, height=1, width=50).grid(row=1, column=2)
 # Starts the app
 tk.mainloop()
 
+
+
+
+# This app uses the secret function of replit as environment variables
+#Build a login system for two types of user.
+
+#Your program should:
+
+#    Have two types of user - admin and normal. Each should have their own username and password.
+#    The admin user should be greeted with 'Hello admin'.
+#    The normal user should be greeted with 'Hello normie'.
+
+# This is the solution:
+
+# The user and password is stored as a secret as a key(=user) and value(=password) pair
+
+
+import os  # importing the os module
+
+Admin_password = os.environ['admin']  # fetching admin password from environment variables
+User_password = os.environ['dave']  # fetching dave's password from environment variables
+
+username = input('Username > ').capitalize()  # getting username input and capitalizing
+userPass = input("Password > ")  # getting password input
+
+if username == 'Dave' and userPass == User_password:  # checking if username is Dave and password matches
+  print("Wellcome Normy")  # printing welcome message for Dave
+elif username == 'Admin' and userPass == Admin_password:  # checking if username is Admin and password matches
+  print("Wellcome Admin")  # printing welcome message for Admin
+else:
+  print("Better luck next time")  # printing failure message for invalid credentials
+
+
 # short programm with subroutine to collect username and password and another subroutine to perform the login action
 from replit import db  # Importing the database from replit
 import os, time, random  # Importing os for system operations, time for delays, and random for generating salts
@@ -921,6 +954,7 @@ img{
   font-style: italic; #/* Make the text italic */
   font-weight: bold; #/* Make the text bold */
 }
+
 # Flask Boiler Template to run a web app:
 from flask import Flask # Imports the flask library
 
@@ -934,4 +968,12 @@ def index(): # Tells the code which webpage to show. This subroutine will displa
 
 app.run(host='0.0.0.0', port=81) # This line should ALWAYS come last. It's the line that turns on the Flask server.
 
-#Simple Flask app with two html pages see here: https://github.com/OlafStinnen2/Flaskappwithtwopages
+# hier day77 einfügen aber ohne template folder und einfache html seite erstellen
+@app.route('/')
+def index():
+  myName = "David"
+  page = ""
+  f = open("template/portfolio.html", "r")
+  page = f.read()
+  f.close()
+  return page
