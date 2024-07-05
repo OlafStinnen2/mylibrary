@@ -968,12 +968,28 @@ def index(): # Tells the code which webpage to show. This subroutine will displa
 
 app.run(host='0.0.0.0', port=81) # This line should ALWAYS come last. It's the line that turns on the Flask server.
 
-# hier day77 einfügen aber ohne template folder und einfache html seite erstellen
-@app.route('/')
-def index():
-  myName = "David"
-  page = ""
-  f = open("template/portfolio.html", "r")
-  page = f.read()
-  f.close()
-  return page
+# Simple Flask app that opens a page and replaces the heading
+from flask import Flask  # Import Flask class
+
+app = Flask(__name__)  # Create an instance of the Flask class
+
+@app.route('/')  # Define the route for the main page
+
+def index():  # Function to handle requests to the main page
+  myName = "Olaf"  # Define a variable for the name to be used in the HTML page
+  page = ""  # Initialize the variable to hold the HTML page content
+  f = open("index.html", "r")  # Open the HTML file in read mode
+  page = f.read()  # Read the contents of the file into the 'page' variable
+  f.close()  # Close the HTML file
+  page = page.replace("{name}", myName)  # Replace the placeholder with the actual name
+  return page  # Return the modified HTML page
+
+app.run(host='0.0.0.0', port=81)  # Run the Flask app on the specified host and port
+# this the related index.html page
+<!DOCTYPE html>   <!-- Document type declaration -->
+<html> <!-- Root element of the HTML document -->
+    <title>Olaf's Testpage</title> <!-- Title of the HTML document, shown in browser tab -->
+    <body> <!-- Main content area of the HTML document -->
+      <h1>Good Morning {name}</h1> <!-- Header element displaying a greeting message dynamically -->
+    </body>   <!-- Closing tag for the body element -->
+</html> <!-- Closing tag for the root HTML element -->
