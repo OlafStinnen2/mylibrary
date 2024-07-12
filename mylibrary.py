@@ -1040,3 +1040,49 @@ def cool_form():
 
 
 app.run(host='0.0.0.0', port=81)
+
+## Simple html file that uses forms to collect user input
+## you need to rename the form.html page into index.html page to run it in replit
+<!DOCTYPE html><!-- Document type declaration -->
+<html><!-- Root element -->
+
+<head>
+
+</head>
+
+<body>
+  Hello world <!-- Simple greeting text -->
+  <form method="post" action="/login"> <!-- Form element -->
+  # the method "post" sends data from the form to the server
+  # it bundles everything that is in between this tagsin <form method="...." into a dictionary and sends it by the method to the page named in action
+  # the entrie that are in between <form>.....</form> are collected and submitted as a dictionary
+    <p>Username: <input type="text" name="username" required> </p> <!-- Username input field -->
+# the <input type=" text, number, password,..." name="The name this will have in the dictionary" value="Default value". The field "required" tells that input must be entered is necessary to proceed
+    <p>Email: <input type="Email" name="email"> </p> <!-- Email input field -->
+      # the email input type is looking for an @ sign as input
+    <p>Password: <input type="password" name="password"> </p> <!-- Password input field -->
+      # the password input typ masks the data entry with ***** so nobody can see data 
+    <input type="hidden" name="userID" value="232"> </p> <!-- Hidden user ID field -->
+    <p>
+      Fave Baldy: 
+      <select name="baldies">
+        <option value = "david">David</option>
+        <option value = "jean luc">Jean Luc Picard</option>
+        <option value = "yul">Yul Brynner</option>
+      </select>
+    </p>
+    #above code is for a selection
+    #<select name ="name of select box or tag">
+    # <option value = "value for this selection ones selected"< The text to display </option>
+    #</select>
+    # The name of the select tag is what will be used in the dictionary as the key name
+    # The value will be set to whichever of the options is selected when the form is submitted
+
+    <button type="submit">Login</button> <!-- Submit button -->
+      #this button type button type="submit to send a form, button for other uses">"The text you want to on your button"</button>
+      # Submit buttons will take the contents of the form, turn it into a dictionary then follow the method and action of the form
+  </form>
+
+</body>
+
+</html>
