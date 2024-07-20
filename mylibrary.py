@@ -1088,13 +1088,17 @@ app.run(host='0.0.0.0', port=81)
 </html>
 
 #This program collects data from a "form" section in "example.html" and sends it to a dictionary "form" via POST method and transfers data from the "form" section into the "form" dictionary via "request"-method
-#Depending what has been selected as option value in example.html the programe will display a different message
+#Depending what has been selected as option value in example.html page the program will display a different message
   
 from flask import Flask, request, render_template  # Import necessary modules from Flask
 
 app = Flask(__name__)  # Create an instance of the Flask class
 
 @app.route("/login", methods=["POST"])  # Define route for '/login' with POST method
+#The example.html page has a "form"-section with a POST method that sends the data to the server. 
+#and the "action="" attribute that points to the "@app.route("/login"...)
+
+#The "@app.route "/login" is the URL that the server will listen for when a POST request is made to it.
 def process():  # Define the function process to handle the '/login' route
   page = ""  # Initialize an empty string variable or an empty page
   form = request.form  # Get the form data from the POST request
