@@ -1115,3 +1115,39 @@ def index():  # Define the function index to handle the root URL
   return render_template('example.html')  # Render the 'example.html' template
 
 app.run(host='0.0.0.0', port=81)  # Run the Flask application on host '0.0.0.0' and port 81
+
+
+# GET vs POST
+# GET is used to retrieve data from a server, while POST is used to send data to a server. 
+# With post, the data transmitted is encrypted using the webpage's default method. So if the URL starts https, then it's encrypted using the secure hypertext transfer protocols encryption algorithm.
+
+#This makes post a better choice for usernames, passwords and so on.
+
+#With get, the data is sent as plaintext as part of the URL, so it's not good for data you want to keep secure. However it is useful for settings, locations or other things that you might want to be able to bookmark.
+                
+#It's not a matter of security. The HTTP protocol defines GET-type requests as being idempotent, while POSTs may have side effects. In plain English, that means that GET is used for viewing something, without changing it, while POST is used for changing something. For example, a search page should use GET, while a form that changes your password should use POST.
+
+# This short script starts with a simple Flask application that has a single route "/" that returns a simple HTML page with a "Hello From Flask" message.
+# The script then defines an url that contains this string "/language?lang=eng". This url is used to define a route that will handle the "/language" part of the URL and from day 82 die Funktionsweise erklären
+    
+from flask import Flask, request
+
+app = Flask(__name__)
+
+@app.route('/language', methods =["GET"])
+def lang():
+  data = request.args
+  if data == {}:
+    return "Nothing here"
+  if data["lang"] == "eng":
+    return "Hello, and welcome to our website"
+  if data["lang"] == "wel":
+    return "Helo, this is welsh"
+    
+
+@app.route('/')
+def index():
+  return "Hello From Flask"
+
+app.run(host='0.0.0.0', port=81)
+                
