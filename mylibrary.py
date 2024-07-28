@@ -1128,26 +1128,26 @@ app.run(host='0.0.0.0', port=81)  # Run the Flask application on host '0.0.0.0' 
 #It's not a matter of security. The HTTP protocol defines GET-type requests as being idempotent, while POSTs may have side effects. In plain English, that means that GET is used for viewing something, without changing it, while POST is used for changing something. For example, a search page should use GET, while a form that changes your password should use POST.
 
 # This short script starts with a simple Flask application that has a single route "/" that returns a simple HTML page with a "Hello From Flask" message.
-# The script then defines an url that contains this string "/language?lang=eng". This url is used to define a route that will handle the "/language" part of the URL and from day 82 die Funktionsweise erklären
+# If you add to the index route "/" an url that contains this string "language?lang=eng" then this url is used to define a route that will handle the "/language" route with method Get. After the "?" is the name of the parameter "lang" and the value "=eng" that will be passed to the route.
     
-from flask import Flask, request
+from flask import Flask, request  # Import the Flask framework and request module to handle web requests
 
-app = Flask(__name__)
+app = Flask(__name__)  # Create an instance of Flask
 
-@app.route('/language', methods =["GET"])
+@app.route('/language', methods=["GET"])  # Define a route for the '/language' endpoint that accepts GET requests
 def lang():
-  data = request.args
-  if data == {}:
-    return "Nothing here"
-  if data["lang"] == "eng":
-    return "Hello, and welcome to our website"
-  if data["lang"] == "wel":
-    return "Helo, this is welsh"
-    
+  data = request.args  # Get the query parameters from the URL
+  if data == {}:  # Check if no data was provided
+    return "Nothing here"  # Return a message if there are no parameters
+  if data["lang"] == "eng":  # Check if the 'lang' parameter is 'eng'
+    return "Hello, and welcome to our website"  # Return a welcome message in English
+  if data["lang"] == "wel":  # Check if the 'lang' parameter is 'wel'
+    return "Helo, this is welsh"  # Return a welcome message in Welsh
+        
 
-@app.route('/')
+@app.route('/')  # Define a route for the root URL
 def index():
-  return "Hello From Flask"
+  return "Hello From Flask"  # Return a greeting message from Flask
 
-app.run(host='0.0.0.0', port=81)
-                
+app.run(host='0.0.0.0', port=81)  # Run the Flask application on all available IP addresses at port 81
+#Next is ay 83
