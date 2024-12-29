@@ -1,4 +1,4 @@
-### The first docker commeands
+### The first docker commands
 
 ```
 docker run -it ubuntu
@@ -30,6 +30,13 @@ If you need a different version, e.g. 3.8 then do the following:
 ```
 docker run -it python:3.8
 ```
+## Docker Run
+```docker run```always creates a NEW container and it does the three steps:
+1) ```docker [image] pull```. Downlaods an image in general from docker hub
+2) ```docker [container] create``` Creates a container based on downloaded image
+3) ```docker [container] start``` starts the container
+
+However, ```docker start -i [CONTAINER ID]```starts an existing container depending on container id
 
 ### Troubleshooting
 If you enter this command
@@ -40,3 +47,5 @@ and feedback is this
 docker: Cannot connect to the Docker daemon at unix:///Users/olafstinnen/.docker/run/docker.sock. Is the docker daemon running?
 
 Then you need to start docker desktop via Launchpad or via terminal command ```docker desktop start```
+
+### Infos from Container
