@@ -82,8 +82,9 @@ Above will not work for a python container. To install a package like pandas int
 
 5. Verify the installation by running a Python command to check the installed library:
     ```
-    >>> print(pd.__version__)"
+    >>> print(pd.__version__)
     ```
+Hier weiterschreiben
 
 ### Troubleshooting
 
