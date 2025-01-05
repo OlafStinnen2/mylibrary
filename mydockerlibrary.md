@@ -126,15 +126,24 @@ docker start my_container
 
 **Differences:**
 
-- `docker run` combines creation and starting of a new container and is a one-step command to both create and start with output attached.
+- `docker run` combines creation and starting of a new container and is a one-step command to both create and start with output attached to it
 - `docker create` only creates the container, allowing for delayed starting or further configuration beforehand.
 - `docker start` only works on existing containers that have been created, making it suitable for restarting purposes.
+
 
 # Run a new container
 
 ```bash
 docker run ubuntu:latest
 ```
+
+# Run a new container but keep it running in the background (-d flag for detached)
+
+```bash
+docker run -d ubuntu:latest
+```
+
+This is similar to a combination of `docker create`& `docker start`
 
 # Create a container without starting it
 
@@ -148,9 +157,9 @@ docker create --name my_container ubuntu:latest
 docker start my_container
 ```
 
-## Docker Inspect and Docker History
+## Docker Inspect, Docker History, Docker Logs
 
-The `docker inspect` and `docker history` commands are utilities for obtaining detailed information about Docker images and containers. Each serves a unique purpose in providing insight into Docker objects.
+Above commands are utilities for obtaining detailed information about Docker images and containers. Each serves a unique purpose in providing insight into Docker objects.
 
 ## `docker inspect`
 
@@ -172,13 +181,16 @@ docker inspect my_container
 - Example:
 
 ```bash
-docker history ubuntu:latest
+docker history my_container
 ```
 
-**Differences:**
+## `docker logs``
 
-- `docker inspect` provides detailed JSON data about the configuration and state of a container or image; it is an in-depth tool for Docker metadata.
-- `docker history` is more concise and focused on the build history of an image, showing each step in its creation process.
+This command retrieves the logs from a running or stopped container. It shows the standard output and standard error streams from the container's main process. For example, `docker logs <container_id>` will display the logs output by the application running in the specified container.
+
+```bash
+docker logs my_container
+```
 
 ## Docker Rename and the flag --Name
 
