@@ -1,6 +1,6 @@
 ### The first docker commands
 
-```
+```bash
 docker run -it ubuntu
 ```
 
@@ -288,7 +288,7 @@ Standardmäßig wird ein Container nicht neu gestartet.
 Es gibt aber eine **restart policy**
 
 - ```on-failur[:max-retries]```: Startet den Container "may-retries"-mal neu, wenn es einen Fehler gibt
-- ```always```: Startet den Container immer neu. Außer wir haben ihn gestoppt. Dannwer erst beim nächsten Docker Daemon erneut gestartet
+- ```always```: Startet den Container immer neu. Außer wir haben ihn gestoppt. Dann wird erst beim nächsten Docker Daemon erneut gestartet
 - ```unless-stopped```: Startet den Container immer neu (und wenn wir ihn stoppen bleibt er gestoppt)
 
 Beispiele:
@@ -308,6 +308,14 @@ oder so:
 
 ```bash
 docker update --restart onfailure:5 [Container-ID / Name]
+```
+
+# Portweiterleitung
+
+Beim erstellen des Containers die Portweiterleitung spezifizieren, da ja der Start eines Containers auch automatisch durchgeführt werden kann.
+
+```bash
+docker container create -p Host-Port:Container Port Image-Name
 ```
 
 
