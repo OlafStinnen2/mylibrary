@@ -130,7 +130,6 @@ docker start my_container
 - `docker create` only creates the container, allowing for delayed starting or further configuration beforehand.
 - `docker start` only works on existing containers that have been created, making it suitable for restarting purposes.
 
-
 # Run a new container
 
 ```bash
@@ -236,7 +235,6 @@ docker rename my-old-container my-new-container
 docker run --name my-container ubuntu:latest
 ```
 
-
 ### Installation of Programs into Existing Container
 
 To install a program into an existing container using `docker exec`, follow these steps:
@@ -284,7 +282,35 @@ Above will not work for a python container. To install a package like pandas int
     >>> print(pd.__version__)
     ```
 
-Hier weiterschreiben
+### Ports freigeben, Container im Hintergrund laufen lassen
+
+Standardmäßig wird ein Container nicht neu gestartet.
+Es gibt aber eine **restart policy**
+
+- ```on-failur[:max-retries]```: Startet den Container "may-retries"-mal neu, wenn es einen Fehler gibt
+- ```always```: Startet den Container immer neu. Außer wir haben ihn gestoppt. Dannwer erst beim nächsten Docker Daemon erneut gestartet
+- ```unless-stopped```: Startet den Container immer neu (und wenn wir ihn stoppen bleibt er gestoppt)
+
+Beispiele:
+Wir setzen die Restart Policy so: (Der Container läuft im Backround Modus ohne Terminal (-d) und wird dann automatisch neu gestartet)
+
+```bash
+docker run -d --restart unless-stopped[Image-Name]
+```
+
+Die Restart Policy kann dann so aktualisiert werden
+
+```bash
+docker update --restart always [Container-ID / Name]
+```
+
+oder so:
+
+```bash
+docker update --restart onfailure:5 [Container-ID / Name]
+```
+
+
 
 ### Troubleshooting
 
