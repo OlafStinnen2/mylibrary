@@ -310,13 +310,49 @@ oder so:
 docker update --restart onfailure:5 [Container-ID / Name]
 ```
 
-# Portweiterleitung
+## Portweiterleitung
 
 Beim erstellen des Containers die Portweiterleitung spezifizieren, da ja der Start eines Containers auch automatisch durchgeführt werden kann.
 
 ```bash
 docker container create -p Host-Port:Container Port Image-Name
 ```
+
+### Datemnagement in Docker Containern
+
+## Dateien in einen Container hineinkopieren
+
+Entweder einen neuen Docker container starten/erstellen mit:
+
+```bash
+docker run ubuntu -t
+```
+
+oder einen bestehenden Container starten mit:
+
+```bash
+container start [container_id]
+container exect it [container_id] /bin/bash
+```
+
+Dann in einer neuen Shell in diesen Container wechseln und in diesem Container dann ein neues Verzeichnis "Folder" erstellen
+
+```bash
+mkdir Folder
+```
+
+und dann in der urpsprünglichen Shell mit dem Befehl z.B. die Text Datei file.txt im Verzeichnis "/Users/olafstinnen/Projects/mylibrary/"
+
+```bash
+docker cp /Users/olafstinnen/Projects/mylibrary/file.txt [container_id]:/Folder
+```
+
+hineinkopieren.
+
+Wechsel man dann wieder zurück in die Shell für den den Container findent man dann die Dater über "cd Folder" und dann mit "ls" wieder.
+ 
+
+## Dateien aus dem Container kopieren
 
 
 
