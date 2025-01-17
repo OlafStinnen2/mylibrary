@@ -320,7 +320,7 @@ docker container create -p Host-Port:Container Port Image-Name
 
 ### Datemnagement in Docker Containern
 
-## Dateien in einen Container hineinkopieren
+## Dateien in und aus einen Container kopieren
 
 Entweder einen neuen Docker container starten/erstellen mit:
 
@@ -350,9 +350,80 @@ docker cp /Users/olafstinnen/Projects/mylibrary/file.txt [container_id]:/Folder
 hineinkopieren.
 
 Wechsel man dann wieder zurück in die Shell für den den Container findent man dann die Dater über "cd Folder" und dann mit "ls" wieder.
- 
 
-## Dateien aus dem Container kopieren
+## Das Verlinken von Host-Verzeichniss mit einem Container
+
+Das Verlinken bzw. das Verküpfen einer Verzeichnisstruktur eines Containers mit Daten, die außerhalb vom Container liegen. Diese Daten, die außerhalb vom Container liegen sind persistent.
+Sie werden als nicht gelöscht wenn wir den Container löschen. Im wesentlichen gibt es zwei Arten von mounts:
+"bind" und "volume".
+
+**Bind Mounts**
+
+Bind mounts allow you to mount a file or directory from the host machine into the container. This means that changes made to the files in the container are reflected on the host and vice versa. Bind mounts are useful when you need to share data between the host and the container.
+
+Example:
+
+```bash
+docker run -d \
+  --name my_container \
+  --mount type=bind,source=/path/on/host,target=/path/in/container \
+  my_image
+  ```
+
+In this example:
+
+- `type=bind` specifies that this is a bind mount.
+- `source=/path/on/host` is the path on the host machine.
+- `target=/path/in/container` is the path inside the container where the host path will be mounted.
+
+### Volumes
+
+Volumes are managed by Docker and are stored in a part of the host filesystem which is managed by Docker (`/var/lib/docker/volumes/` on Linux). Volumes are useful for persisting data beyond the lifecycle of a container and for sharing data between multiple containers.
+
+#### Example
+
+```bash
+docker run -d \
+  --name my_container \
+  --mount type=volume,source=my_volume,target=/path/in/container \
+  my_image
+```
+
+In this example:
+
+- `type=volume` specifies that this is a volume mount.
+- `source=my_volume` is the name of the volume.
+- `target=/path/in/container` is the path inside the container where the volume will be mounted.
+
+### Key Differences
+
+1. **Location**:
+   - **Bind Mounts**: Use any location on the host filesystem.
+   - **Volumes**: Managed by Docker and stored in Docker's storage area.
+
+2. **Use Case**:
+   - **Bind Mounts**: Ideal for sharing data between the host and container, especially during development.
+   - **Volumes**: Ideal for persisting data and sharing data between multiple containers.
+
+3. **Management**:
+   - **Bind Mounts**: Managed by the host system.
+   - **Volumes**: Managed by Docker, which provides better isolation and management.
+
+### Example Code for Both
+
+```bash
+# Bind Mount Example
+docker run -d \
+  --name my_bind_container \
+  --mount type=bind,source=/path/on/host,target=/path/in/container \
+  my_image
+
+# Volume Example
+docker run -d \
+  --name my_volume_container \
+  --mount type=volume,source=my_volume,target=/path/in/container \
+  my_image
+```
 
 
 
