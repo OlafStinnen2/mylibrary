@@ -364,7 +364,7 @@ Bind mounts allow you to mount a file or directory from the host machine into th
 Example:
 
 ```bash
-docker run -d \
+docker run -it \
   --name my_container \
   --mount type=bind,source=/path/on/host,target=/path/in/container \
   my_image
@@ -383,7 +383,7 @@ Volumes are managed by Docker and are stored in a part of the host filesystem wh
 #### Example
 
 ```bash
-docker run -d \
+docker run -it \
   --name my_container \
   --mount type=volume,source=my_volume,target=/path/in/container \
   my_image
@@ -413,7 +413,7 @@ In this example:
 
 ```bash
 # Bind Mount Example
-docker run -d -it \
+docker run -it \
   --name my_bind_container \
   --mount type=bind,source=/path/on/host,target=/path/in/container \
   my_image
@@ -423,7 +423,7 @@ With "pwd" you get the source path e.g. "/Users/olafstinnen/Projects/mylibrary"
 and should in destination "Projects" in container and my_image is Ubuntu
 
 ```bash
-docker run -d -it \
+docker run -it \
   --name Olafs_Container \
   --mount type=bind,source=/Users/olafstinnen/Projects/mylibrary,target=/projects \
   ubuntu
@@ -437,18 +437,35 @@ and looking into the container the "projects" folder is there
 
 <img src="/Users/olafstinnen/Projects/mylibrary/images/docker_commands002.png" alt="Screenshot description" width="500" />
 
-
 # Volume Mount Example
 
-Same result from above but with volume mount instead of bind mount and as a short command:
-
+With
 
 ```bash
-docker run --name="Olafs_Container" -d -it -v$(pwd):/project ubuntu
+docker volume create volume_name
 ```
 
+you create a volume on your local machine. And with ```bash docker volume rm volume_name``` you remove it.
 
+With
 
+```bash
+docker run --name="mycontainer" -v myvolume:/project -it ubuntu
+```
+
+you create a new container that links the volume myvolume to project folder on mycontainer.
+
+If you store a file in this project folder on container (e.g. touch help.txt) then you can make it available to a second container via
+
+```bash
+docker run --name="mynextcontainer" -v myvolume:/project -it ubuntu
+```
+
+**but** if you provide instead of volume name "myvolume" a path then then "-v" command will be interpreted as "bind mount" and you link the folder that the path points to the container
+
+```bash
+docker run --name="mynextcontainer" -v $(pwd):/projeckt -it ubuntu
+```
 
 ### Troubleshooting
 
