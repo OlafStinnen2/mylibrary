@@ -413,17 +413,40 @@ In this example:
 
 ```bash
 # Bind Mount Example
-docker run -d \
+docker run -d -it \
   --name my_bind_container \
   --mount type=bind,source=/path/on/host,target=/path/in/container \
   my_image
-
-# Volume Example
-docker run -d \
-  --name my_volume_container \
-  --mount type=volume,source=my_volume,target=/path/in/container \
-  my_image
 ```
+
+With "pwd" you get the source path e.g. "/Users/olafstinnen/Projects/mylibrary"
+and should in destination "Projects" in container and my_image is Ubuntu
+
+```bash
+docker run -d -it \
+  --name Olafs_Container \
+  --mount type=bind,source=/Users/olafstinnen/Projects/mylibrary,target=/projects \
+  ubuntu
+```
+
+output is this container in docker hub
+
+<img src="/Users/olafstinnen/Projects/mylibrary/images/docker_commands001.png" alt="Screenshot description" width="500" />
+
+and looking into the container the "projects" folder is there
+
+<img src="/Users/olafstinnen/Projects/mylibrary/images/docker_commands002.png" alt="Screenshot description" width="500" />
+
+
+# Volume Mount Example
+
+Same result from above but with volume mount instead of bind mount and as a short command:
+
+
+```bash
+docker run --name="Olafs_Container" -d -it -v$(pwd):/project ubuntu
+```
+
 
 
 
