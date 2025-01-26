@@ -378,7 +378,50 @@ In this example:
 
 ### Volumes
 
-Volumes are managed by Docker and are stored in a part of the host filesystem which is managed by Docker (`/var/lib/docker/volumes/` on Linux). Volumes are useful for persisting data beyond the lifecycle of a container and for sharing data between multiple containers.
+Volumes are managed by Docker and are stored in a part of the host filesystem which is managed by Docker (`/var/lib/docker/volumes/` on Linux).
+Volumes are useful for persisting data beyond the lifecycle of a container and for sharing data between multiple containers.
+It is not possible to rename a volume. You need to create a new volume first and then copy the contents from the to be deleted volume into it.
+
+For example by using databases stored in volumes.
+With
+
+```bash
+docker volume create [Name]
+```
+
+you create a new volme.
+
+To inspect a volume:
+
+```bash
+docker volume inspect [Name]
+```
+
+To delete a volume:
+
+```bash
+docker volume rm [Name]
+```
+
+To delete all volumes not connected to a container:
+
+```bash
+docker volume prune
+```
+
+If you want to know which volume is connected to a container then you need copy the volume id and:
+
+```bash
+docker container ls -a --filter volume=[Volume_Name]
+```
+
+Above lists all containers (Ls -a) and filter the container for the specified volume.
+
+If you want to delete a volume you need to delete the container first:
+
+```bash
+docker container rm [Container_ID]  && docker rm [Volume_Name]
+```
 
 #### Example
 
@@ -467,7 +510,13 @@ docker run --name="mynextcontainer" -v myvolume:/project -it ubuntu
 docker run --name="mynextcontainer" -v $(pwd):/projeckt -it ubuntu
 ```
 
-### Troubleshooting
+# Udpating data in docker world #
+
+To update a database version in docker world is done be creating a new container with the new database version
+and then linking this new container and the new database version with the existing volume.
+Once done you delete the old container with the old database version.
+
+### Troubleshooting# ###
 
 If you enter this command
 
