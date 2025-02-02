@@ -516,6 +516,75 @@ To update a database version in docker world is done be creating a new container
 and then linking this new container and the new database version with the existing volume.
 Once done you delete the old container with the old database version.
 
+# Netzwerke in Docker #
+
+## Grundlagen ##
+
+*Zweck:* Docker Netzwerk ermöglichen die Kommunikation zwischen Containern, dem Host-System und externen Netzwerken
+
+*Standard-Netzwerke:* Docker erstellt automatisch drei Netzwerke bzw drei Netzwerktypen:
+
+- bridge: Standardnetzwerk für Container (isolierte Kommunikation auf demselben Host). Dieses Netzwerk wird automatisch einem neuen Docker Container zugeordnet. Bei Bridge-Netzwerken handelt es sich um private Subnetzwerke, deren IP immer mit 192 beginnt
+
+- host: Container teilen sich das Netzwerk des Host-Systems (keine Isolation)
+
+- none: Keine Netzwerkverbindung (Container ist komplett isoliert)
+
+## Benutzerdefinierte Netzwerke ##
+
+- Vorteile: Bessere Kontrolle, DNS-Auflösung zwischen Containern (über Container-Namen) und Isolation
+
+- Beispiel:
+
+```bash
+docker network create mein-netzwerk
+```
+
+## Wichtige Befehle ##
+
+- Netzwerke erstellen:
+
+```bash
+docker network create mein-netzwerk
+```
+
+- Netzwerkfunktionalität eines Containers ausschalten:
+
+```bash
+docker network create --network null mein-container
+```
+
+- Netzwerke auflisten:
+
+```bash
+docker network ls
+```
+
+- Details anzeigen:
+
+```bash
+docker network inspect netzerk-name
+```
+
+- Container mit Netzwerk verbinden: 
+
+```bash
+docker network connect netzwer-name container-name
+```
+
+- Container löschen
+
+```bash
+docker network rm netzerk-name
+```
+
+Herausfinden welche Container in Netzwer mein-netzwerk laufen:
+
+```bash
+docker network inspect -f "{{.Containers}}" mein-netzwerk
+```
+
+
 ### Troubleshooting# ###
 
 If you enter this command
