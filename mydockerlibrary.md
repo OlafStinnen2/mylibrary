@@ -452,7 +452,7 @@ In this example:
    - **Bind Mounts**: Managed by the host system.
    - **Volumes**: Managed by Docker, which provides better isolation and management.
 
-### Example Code for Both
+### Example Code for Mount
 
 ```bash
 # Bind Mount Example
@@ -471,14 +471,6 @@ docker run -it \
   --mount type=bind,source=/Users/olafstinnen/Projects/mylibrary,target=/projects \
   ubuntu
 ```
-
-output is this container in docker hub
-
-<img src="/Users/olafstinnen/Projects/mylibrary/images/docker_commands001.png" alt="Screenshot description" width="500" />
-
-and looking into the container the "projects" folder is there
-
-<img src="/Users/olafstinnen/Projects/mylibrary/images/docker_commands002.png" alt="Screenshot description" width="500" />
 
 # Volume Mount Example
 
@@ -566,7 +558,7 @@ docker network ls
 docker network inspect netzerk-name
 ```
 
-- Container mit Netzwerk verbinden: 
+- Container mit Netzwerk verbinden:
 
 ```bash
 docker network connect netzwer-name container-name
@@ -584,6 +576,79 @@ Herausfinden welche Container in Netzwer mein-netzwerk laufen:
 docker network inspect -f "{{.Containers}}" mein-netzwerk
 ```
 
+# Dockerfiles: Develop own images
+
+Dockerfiles allow us to write a configuration of a new image into a file called **Dockerfile**. The file is then used to build an image with the command **docker build**. The output is an image according to our description in the Dockerfile.
+
+Each line of the dockerfile contains a command used to build the image. The syntax is [COMMAND][Parameter][^1]
+[^1]: Parameter refers to the arguments passed to the command. COMMANDS are written in capital letters to differentiate them from parameter. "#" is used at the beginning to start a commentary. A "Dockerfile" has no file extension like ".md" for example. The standard name is always **Dockerfile**.
+
+**Best Practice** is to have the dockerfile in an empty folder. This folder should contain the dockerfile only. Because if you build the dockerfile then image e has access to all files in your folder.
+
+Each command in the dockerfile builds a new layer in the imagem and at the very end the image id is generated.
+
+The first commmand in your dockerfile is always **FROM [Image]:[tag]**
+
+The next commmand **RUN** updates the base image with the installation of additional packages
+
+- Alpine: **RUN apk update && apk add [Package]**
+- Ubuntu/Debia: **RUN apt-get update && apt-get install -y [Package]**
+- Each RUN command line adds a new layer to the image
+
+The command **COPY** copies local data from the project folder into the image. **ADD** is similar to **COPY** but with different capabilities. **ADD** allows to unpack archives like gzip, tar, bzip2, xz. Each COPY or ADD command adds a new line to the image.
+
+The command **CMD ["Program / Datei", "Parameter 1", "Parameter 2"]** specifies which command or program should be executed after the image is build.
+
+The command **ENTRYPOINT** is similar to **CMD** but with some differencies:
+
+The **ENTRYPOINT** instruction in a Dockerfile specifies a command that will always be executed when the container starts. Unlike **CMD**, which can be overridden by providing a command at the end of `docker run`, **ENTRYPOINT** ensures that the specified command is always executed, making it useful for setting up containers that should always run a specific application.
+
+## Key Points
+
+- **ENTRYPOINT** is used to define a container's main executable.
+- It ensures that the specified command is always executed.
+- You can still pass additional arguments to the **ENTRYPOINT** command when running the container.
+- You can pass this arguments with **CMD** in the dockerfile and overwrite this argument later when running the containiner
+
+
+
+
+A Dockerfile typically contains a series of instructions, such as:
+
+- **FROM**: Specifies the base image to use.
+- **RUN**: Executes commands in the container.
+- **COPY** or **ADD**: Copies files from the host to the container.
+- **CMD** or **ENTRYPOINT**: Specifies the command to run when the container starts.
+- **EXPOSE**: Defines the port on which the container will listen.
+- **ENV**: Sets environment variables.
+- **WORKDIR**: Sets the working directory inside the container and is a replacement for **RUN cd[Path]**
+
+Example Dockerfile:
+
+```Dockerfile
+# Use the official Ubuntu base image
+FROM ubuntu:latest
+
+# Update and install tree
+RUN apt-get update && apt-get install -y tree
+
+# Set the working directory
+WORKDIR /app
+
+# Copy the current directory contents into the container at /app
+COPY . /app
+
+# Run tree command when the container launches
+CMD ["tree"]
+```
+
+To build an image from this Dockerfile that is named "my-ubuntu-image", use the following command:
+
+```bash
+docker build -t my-ubuntu-image .
+```
+
+This command will create an image named `my-ubuntu-image` based on the instructions in the Dockerfile.
 
 ### Troubleshooting# ###
 
