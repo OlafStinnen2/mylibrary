@@ -664,3 +664,58 @@ docker: Cannot connect to the Docker daemon at unix:///Users/olafstinnen/.docker
 Then you need to start docker desktop via Launchpad or via terminal command ```docker desktop start```
 
 ### Infos from Container
+
+Allgemeine Docker-Befehle zum Vergleich was evtl. noch fehlen könnte
+
+    docker run: Startet einen Container basierend auf einem Image.
+    docker ps / docker ps -a: Listet laufende bzw. alle Container auf.
+    docker stop [Container-ID]: Stoppt einen laufenden Container.
+    docker start [Container-ID]: Startet einen gestoppten Container.
+    docker rm [Container-ID]: Entfernt einen Container.
+    docker kill [Container-ID]: Beendet einen Container sofort.
+    docker images: Zeigt alle lokal gespeicherten Images an.
+    docker rmi [Image-ID]: Löscht ein Docker-Image.
+    docker exec -it [Container-ID] [Befehl]: Führt Befehle in einem laufenden Container aus.
+    docker logs [Container-ID]: Zeigt die Logs eines Containers an.
+    docker inspect [Container-ID oder Image-ID]: Gibt detaillierte Konfigurationsdaten aus.
+    docker build -t [Image-Name] .: Erzeugt ein Image aus einem Dockerfile.
+    docker commit [Container-ID] [Image-Name]: Erstellt ein Image aus einem laufenden oder gestoppten Container.
+
+Netzwerk-Related
+
+    docker network create [Netzwerkname]: Erstellt ein benutzerdefiniertes Netzwerk.
+    docker network ls: Zeigt alle Netzwerke an.
+    docker network inspect [Netzwerkname]: Zeigt Details zu einem bestimmten Netzwerk.
+    docker network prune: Entfernt ungenutzte Netzwerke.
+
+Volumes
+
+    docker volume create [Volume-Name]: Erstellt ein Volume.
+    docker volume ls: Zeigt alle Volumes an.
+    docker volume inspect [Volume-Name]: Gibt Details über ein Volume.
+    docker volume rm [Volume-Name]: Löscht ein Volume.
+
+Docker-Compose
+
+    docker-compose up: Startet alle in der docker-compose.yml beschriebenen Container.
+    docker-compose down: Stoppt und entfernt alle in der docker-compose.yml definierten Container.
+    docker-compose build: Erzeugt Images basierend auf einer docker-compose.yml.
+    docker-compose logs: Zeigt die Logs aller definierten Dienste an.
+
+Swarm-Modus
+
+    docker swarm init: Initialisiert ein neues Docker Swarm-Cluster.
+    docker swarm join: Fügt einen Knoten zu einem bestehenden Swarm hinzu.
+    docker swarm leave: Verlässt einen bestehenden Swarm.
+    docker service create: Erstellt einen neuen Service.
+    docker service ls: Zeigt alle Services in einem Swarm an.
+    docker service ps [Service-Name]: Zeigt alle Tasks eines bestimmten Services.
+    docker service update: Aktualisiert einen existierenden Service.
+    docker service rm [Service-Name]: Entfernt einen Service.
+
+Kubernetes (wenn behandelt)
+
+    kubectl apply -f [Datei.yml]: Erstellt Ressourcen in einem Kubernetes-Cluster.
+    kubectl get pods: Zeigt eine Liste aller Pods im Cluster.
+    kubectl delete pod [Pod-Name]: Löscht einen bestimmten Pod.
+    kubectl describe [Ressourcen-Typ] [Name]: Gibt Details zu einer Ressource aus.

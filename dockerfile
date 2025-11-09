@@ -1,8 +1,5 @@
-FROM node:latest
-WORKDIR /app
-COPY express-app/* .
-RUN npm install
-#COPY . /express-app
-EXPOSE 8080
-CMD ["node", "app.js"]
-
+FROM ubuntu
+LABEL version="1.0"
+LABEL Olaf.Projekt="Dockerfile"
+LABEL description="Dockerfile for a simple web server" 
+LABEL Olaf.Server="Main"
