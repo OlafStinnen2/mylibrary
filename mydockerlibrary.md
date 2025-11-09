@@ -1,4 +1,6 @@
-### The first docker commands
+# Docker Command Library
+
+## The First Docker Commands
 
 ```bash
 docker run -it ubuntu
@@ -18,7 +20,7 @@ Create a new container from the ubuntu image.
 Start the container and attach your terminal to it, allowing you to interact with the container's shell.
 This command is useful for starting a container where you need to interact with the shell, for example, to run commands or scripts manually.
 
-Once you've started the linux ubuntu container, a shell opens up with "root@...". You could update the linux version of the container with linux command ```apt-get-update```.
+Once you've started the linux ubuntu container, a shell opens up with "root@...". You could update the linux version of the container with linux command ```apt-get update```.
 If you want to install a programm with name "tree" for example you need the linux command ```apt-get install tree```
 
 You could do the same to run python:
@@ -33,6 +35,202 @@ If you need a different version, e.g. 3.8 then do the following:
 ```bash
 docker run -it python:3.8
 ```
+
+## Docker Pull and Push
+
+### Docker Pull
+
+The `docker pull` command downloads an image from a Docker registry (like Docker Hub) to your local machine.
+
+```bash
+docker pull ubuntu:latest
+docker pull python:3.9
+```
+
+You can also pull from specific registries:
+
+```bash
+docker pull ghcr.io/owner/image:tag
+```
+
+### Docker Push
+
+The `docker push` command uploads an image to a Docker registry.
+
+```bash
+docker push myusername/my-image:latest
+```
+
+Before pushing, you need to:
+1. Login to the registry: `docker login`
+2. Tag your image appropriately: `docker tag my-image myusername/my-image:latest`
+
+## Docker Login and Logout
+
+### Docker Login
+
+Authenticate to a Docker registry:
+
+```bash
+docker login
+docker login registry.example.com
+docker login -u username -p password
+```
+
+### Docker Logout
+
+Log out from a Docker registry:
+
+```bash
+docker logout
+docker logout registry.example.com
+```
+
+### Docker Search
+
+Search for images on Docker Hub:
+
+```bash
+docker search ubuntu
+docker search --filter stars=100 nginx
+```
+
+## Docker System Management
+
+### Docker System Info
+
+Display system-wide information about Docker:
+
+```bash
+docker system info
+# or shorthand:
+docker info
+```
+
+### Docker System Disk Usage
+
+Show Docker disk usage including images, containers, and volumes:
+
+```bash
+docker system df
+docker system df -v  # verbose output
+```
+
+### Docker System Prune
+
+Remove all unused Docker objects (containers, networks, images, and optionally volumes):
+
+```bash
+docker system prune           # Remove stopped containers, unused networks, dangling images
+docker system prune -a        # Also remove all unused images (not just dangling)
+docker system prune -a --volumes  # Also remove unused volumes
+docker system prune -f        # Force prune without confirmation
+```
+
+## Container Monitoring and Stats
+
+### Docker Stats
+
+Display live resource usage statistics for containers:
+
+```bash
+docker stats                    # Show stats for all running containers
+docker stats [Container-ID]     # Show stats for specific container
+docker stats --no-stream        # Display stats once without streaming
+```
+
+### Docker Top
+
+Display running processes inside a container:
+
+```bash
+docker top [Container-ID]
+docker top [Container-ID] aux   # With detailed process info
+```
+
+### Docker Port
+
+List port mappings for a container:
+
+```bash
+docker port [Container-ID]
+docker port [Container-ID] 80   # Show mapping for specific port
+```
+
+## Container Pause and Unpause
+
+### Docker Pause
+
+Pause all processes in a container (freezes the container state):
+
+```bash
+docker pause [Container-ID]
+```
+
+### Docker Unpause
+
+Resume a paused container:
+
+```bash
+docker unpause [Container-ID]
+```
+
+The difference between `docker pause` and `docker stop`:
+- `pause`: Freezes all processes using cgroups, very fast, state remains in memory
+- `stop`: Gracefully stops the container, sends SIGTERM then SIGKILL
+
+## Docker Image Export and Import
+
+### Docker Save
+
+Save an image to a tar archive (includes all layers and metadata):
+
+```bash
+docker save -o my-image.tar my-image:latest
+docker save my-image:latest | gzip > my-image.tar.gz  # Compressed
+```
+
+### Docker Load
+
+Load an image from a tar archive:
+
+```bash
+docker load -i my-image.tar
+docker load < my-image.tar
+```
+
+### Docker Export
+
+Export a container's filesystem as a tar archive (flattened, no history):
+
+```bash
+docker export [Container-ID] > container-backup.tar
+docker export -o container-backup.tar [Container-ID]
+```
+
+### Docker Import
+
+Import a container filesystem tar archive as an image:
+
+```bash
+docker import container-backup.tar my-new-image:latest
+cat container-backup.tar | docker import - my-new-image:latest
+```
+
+**Key Difference:**
+- `save`/`load`: Preserves image layers, history, and metadata (use for images)
+- `export`/`import`: Creates a flat filesystem snapshot without history (use for containers)
+
+## Docker Commit
+
+Create a new image from a container's changes:
+
+```bash
+docker commit [Container-ID] my-new-image:v1
+docker commit -m "Added nginx" -a "Author Name" [Container-ID] my-image:v2
+```
+
+This is useful for capturing manual changes made to a container, but using Dockerfiles is the recommended approach for reproducibility.
 
 ## Docker Image Tag
 
@@ -215,7 +413,7 @@ docker rename my-old-container my-new-container
 - Example: To run a container with a specific name, you could use:
 
 ```bash
-docker rename my-old-container my-new-container
+docker run --name my-container ubuntu:latest
 ```
 
 **Differences:**
@@ -331,8 +529,8 @@ docker run ubuntu -t
 oder einen bestehenden Container starten mit:
 
 ```bash
-container start [container_id]
-container exect it [container_id] /bin/bash
+docker start [container_id]
+docker exec -it [container_id] /bin/bash
 ```
 
 Dann in einer neuen Shell in diesen Container wechseln und in diesem Container dann ein neues Verzeichnis "Folder" erstellen
@@ -420,7 +618,7 @@ Above lists all containers (Ls -a) and filter the container for the specified vo
 If you want to delete a volume you need to delete the container first:
 
 ```bash
-docker container rm [Container_ID]  && docker rm [Volume_Name]
+docker container rm [Container_ID] && docker volume rm [Volume_Name]
 ```
 
 #### Example
@@ -543,7 +741,7 @@ docker network create mein-netzwerk
 - Netzwerkfunktionalität eines Containers ausschalten:
 
 ```bash
-docker network create --network null mein-container
+docker run --network none --name mein-container ubuntu
 ```
 
 - Netzwerke auflisten:
@@ -650,6 +848,313 @@ docker build -t my-ubuntu-image .
 
 This command will create an image named `my-ubuntu-image` based on the instructions in the Dockerfile.
 
+## Advanced Dockerfile Instructions
+
+### ARG - Build-time Variables
+
+The `ARG` instruction defines variables that users can pass at build-time to the builder with the `docker build` command using the `--build-arg` flag.
+
+```Dockerfile
+# Define build argument with default value
+ARG PYTHON_VERSION=3.9
+ARG APP_HOME=/app
+
+# Use the argument
+FROM python:${PYTHON_VERSION}
+WORKDIR ${APP_HOME}
+```
+
+Build with custom arguments:
+
+```bash
+docker build --build-arg PYTHON_VERSION=3.11 -t my-app .
+```
+
+**Note:** `ARG` values are NOT available after the image is built, only during build-time. Use `ENV` for runtime variables.
+
+### LABEL - Add Metadata
+
+The `LABEL` instruction adds metadata to an image as key-value pairs:
+
+```Dockerfile
+FROM ubuntu:latest
+
+LABEL maintainer="name@example.com"
+LABEL version="1.0"
+LABEL description="This is a custom Docker image"
+LABEL org.opencontainers.image.authors="Your Name"
+```
+
+View labels:
+
+```bash
+docker inspect --format='{{json .Config.Labels}}' [Image-ID]
+```
+
+### USER - Set User
+
+The `USER` instruction sets the user (and optionally group) to use when running the image:
+
+```Dockerfile
+FROM ubuntu:latest
+
+# Create a non-root user
+RUN useradd -m -u 1000 appuser
+
+# Switch to non-root user
+USER appuser
+
+# All subsequent commands run as this user
+WORKDIR /home/appuser
+CMD ["whoami"]
+```
+
+**Security Best Practice:** Always run containers as non-root users when possible.
+
+### VOLUME - Create Mount Points
+
+The `VOLUME` instruction creates a mount point and marks it as holding externally mounted volumes:
+
+```Dockerfile
+FROM ubuntu:latest
+
+# Create volume mount points
+VOLUME /data
+VOLUME ["/var/log", "/var/db"]
+
+CMD ["bash"]
+```
+
+When you run this container, Docker automatically creates anonymous volumes for these paths.
+
+### HEALTHCHECK - Container Health Monitoring
+
+The `HEALTHCHECK` instruction tells Docker how to test if a container is still working:
+
+```Dockerfile
+FROM nginx:latest
+
+# Check if nginx is responding every 30 seconds
+HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
+  CMD curl -f http://localhost/ || exit 1
+```
+
+Options:
+- `--interval=DURATION` (default: 30s) - Time between checks
+- `--timeout=DURATION` (default: 30s) - Max time for check to complete
+- `--start-period=DURATION` (default: 0s) - Initialization time before starting checks
+- `--retries=N` (default: 3) - Consecutive failures needed to mark unhealthy
+
+Check health status:
+
+```bash
+docker ps  # Shows health status in STATUS column
+docker inspect --format='{{.State.Health.Status}}' [Container-ID]
+```
+
+### ONBUILD - Trigger Instructions
+
+The `ONBUILD` instruction adds a trigger instruction to be executed later when the image is used as a base for another build:
+
+```Dockerfile
+FROM node:14
+WORKDIR /app
+
+# These will execute when someone uses this image as base
+ONBUILD COPY package*.json ./
+ONBUILD RUN npm install
+ONBUILD COPY . .
+```
+
+### .dockerignore File
+
+Similar to `.gitignore`, the `.dockerignore` file excludes files and directories from the build context:
+
+Create a `.dockerignore` file in the same directory as your Dockerfile:
+
+```
+# Ignore git files
+.git
+.gitignore
+
+# Ignore documentation
+*.md
+docs/
+
+# Ignore dependencies
+node_modules/
+__pycache__/
+*.pyc
+
+# Ignore logs and temp files
+*.log
+tmp/
+.DS_Store
+
+# Ignore secrets
+.env
+*.key
+*.pem
+```
+
+Benefits:
+- Faster builds (smaller context)
+- Improved security (exclude sensitive files)
+- Smaller images (if using COPY . .)
+
+## Multi-Stage Builds
+
+Multi-stage builds allow you to use multiple `FROM` statements in your Dockerfile. Each `FROM` instruction can use a different base, and each begins a new stage of the build. This is extremely useful for:
+
+1. **Reducing final image size** - Keep build tools out of production images
+2. **Separating build and runtime dependencies**
+3. **Creating cleaner, more secure production images**
+
+### Example 1: Go Application
+
+```Dockerfile
+# Stage 1: Build stage
+FROM golang:1.20 AS builder
+
+WORKDIR /app
+COPY go.mod go.sum ./
+RUN go mod download
+
+COPY . .
+RUN CGO_ENABLED=0 GOOS=linux go build -o myapp
+
+# Stage 2: Production stage
+FROM alpine:latest
+
+# Install certificates for HTTPS
+RUN apk --no-cache add ca-certificates
+
+WORKDIR /root/
+# Copy only the compiled binary from builder stage
+COPY --from=builder /app/myapp .
+
+EXPOSE 8080
+CMD ["./myapp"]
+```
+
+Result: Final image is ~10MB instead of 800MB+
+
+### Example 2: Node.js Application
+
+```Dockerfile
+# Stage 1: Dependencies and build
+FROM node:18 AS builder
+
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci --only=production
+
+COPY . .
+RUN npm run build
+
+# Stage 2: Production runtime
+FROM node:18-alpine
+
+WORKDIR /app
+
+# Copy only necessary files
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/dist ./dist
+COPY --from=builder /app/package*.json ./
+
+# Run as non-root user
+RUN addgroup -g 1001 -S nodejs && \
+    adduser -S nodejs -u 1001
+USER nodejs
+
+EXPOSE 3000
+CMD ["node", "dist/index.js"]
+```
+
+### Example 3: Python Application
+
+```Dockerfile
+# Stage 1: Build dependencies
+FROM python:3.11 AS builder
+
+WORKDIR /app
+COPY requirements.txt .
+
+# Install dependencies to a specific directory
+RUN pip install --no-cache-dir --prefix=/install -r requirements.txt
+
+# Stage 2: Runtime
+FROM python:3.11-slim
+
+WORKDIR /app
+
+# Copy installed packages from builder
+COPY --from=builder /install /usr/local
+
+# Copy application code
+COPY . .
+
+# Create non-root user
+RUN useradd -m -u 1000 appuser && chown -R appuser:appuser /app
+USER appuser
+
+CMD ["python", "app.py"]
+```
+
+### Example 4: Using Specific Stage for Testing
+
+```Dockerfile
+# Base stage
+FROM node:18 AS base
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci
+
+# Development stage
+FROM base AS development
+COPY . .
+CMD ["npm", "run", "dev"]
+
+# Test stage
+FROM base AS test
+COPY . .
+RUN npm run test
+RUN npm run lint
+
+# Production build stage
+FROM base AS builder
+COPY . .
+RUN npm run build
+
+# Production runtime stage
+FROM node:18-alpine AS production
+WORKDIR /app
+COPY --from=builder /app/dist ./dist
+COPY --from=builder /app/node_modules ./node_modules
+CMD ["node", "dist/index.js"]
+```
+
+Build specific stages:
+
+```bash
+# Build and run development
+docker build --target development -t myapp:dev .
+
+# Build and run tests only
+docker build --target test -t myapp:test .
+
+# Build production (default, last stage)
+docker build -t myapp:prod .
+```
+
+### Benefits of Multi-Stage Builds
+
+1. **Smaller Images:** Final image only contains runtime dependencies
+2. **Better Security:** No build tools or source code in production images
+3. **Faster Deployments:** Smaller images transfer faster
+4. **Cleaner Separation:** Clear distinction between build and runtime
+5. **No need for build scripts:** Everything in one Dockerfile
+
 ### Troubleshooting# ###
 
 If you enter this command
@@ -695,12 +1200,643 @@ Volumes
     docker volume inspect [Volume-Name]: Gibt Details über ein Volume.
     docker volume rm [Volume-Name]: Löscht ein Volume.
 
-Docker-Compose
+## Docker Compose
 
-    docker-compose up: Startet alle in der docker-compose.yml beschriebenen Container.
-    docker-compose down: Stoppt und entfernt alle in der docker-compose.yml definierten Container.
-    docker-compose build: Erzeugt Images basierend auf einer docker-compose.yml.
-    docker-compose logs: Zeigt die Logs aller definierten Dienste an.
+Docker Compose is a tool for defining and running multi-container Docker applications. With Compose, you use a YAML file to configure your application's services, networks, and volumes. Then, with a single command, you create and start all the services from your configuration.
+
+### Basic Docker Compose Commands
+
+```bash
+# Start all services defined in docker-compose.yml
+docker-compose up
+
+# Start in detached mode (background)
+docker-compose up -d
+
+# Stop and remove all containers, networks
+docker-compose down
+
+# Stop and remove including volumes
+docker-compose down -v
+
+# Build or rebuild services
+docker-compose build
+
+# Build without cache
+docker-compose build --no-cache
+
+# View logs from all services
+docker-compose logs
+
+# Follow log output
+docker-compose logs -f
+
+# View logs for specific service
+docker-compose logs -f servicename
+
+# List running services
+docker-compose ps
+
+# Execute command in running service
+docker-compose exec servicename bash
+
+# Run a one-off command
+docker-compose run servicename command
+
+# Stop services without removing them
+docker-compose stop
+
+# Start existing stopped services
+docker-compose start
+
+# Restart services
+docker-compose restart
+
+# Pause services
+docker-compose pause
+
+# Unpause services
+docker-compose unpause
+
+# Scale a service to multiple instances
+docker-compose up -d --scale servicename=3
+```
+
+### Example 1: Simple Web Application with Database
+
+Create a `docker-compose.yml` file:
+
+```yaml
+version: '3.8'
+
+services:
+  # Web application service
+  web:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - DATABASE_URL=postgres://user:password@db:5432/myapp
+    depends_on:
+      - db
+    volumes:
+      - ./app:/usr/src/app
+    restart: unless-stopped
+
+  # PostgreSQL database service
+  db:
+    image: postgres:15
+    environment:
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=myapp
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+# Named volumes
+volumes:
+  postgres_data:
+```
+
+### Example 2: Full Stack Application with Multiple Services
+
+```yaml
+version: '3.8'
+
+services:
+  # Frontend React application
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - REACT_APP_API_URL=http://localhost:5000
+    depends_on:
+      - backend
+    networks:
+      - app-network
+
+  # Backend API
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000"
+    environment:
+      - DATABASE_URL=postgresql://user:password@db:5432/appdb
+      - REDIS_URL=redis://redis:6379
+    depends_on:
+      - db
+      - redis
+    volumes:
+      - ./backend/uploads:/app/uploads
+    networks:
+      - app-network
+    restart: unless-stopped
+
+  # PostgreSQL database
+  db:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: appdb
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    networks:
+      - app-network
+    restart: unless-stopped
+
+  # Redis cache
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - app-network
+    restart: unless-stopped
+
+  # Nginx reverse proxy
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - frontend
+      - backend
+    networks:
+      - app-network
+    restart: unless-stopped
+
+volumes:
+  db_data:
+  redis_data:
+
+networks:
+  app-network:
+    driver: bridge
+```
+
+### Example 3: Using Environment Files
+
+Create a `.env` file:
+
+```env
+# Database
+POSTGRES_USER=myuser
+POSTGRES_PASSWORD=mypassword
+POSTGRES_DB=mydatabase
+
+# Application
+APP_PORT=3000
+NODE_ENV=production
+```
+
+Reference in `docker-compose.yml`:
+
+```yaml
+version: '3.8'
+
+services:
+  app:
+    build: .
+    ports:
+      - "${APP_PORT}:3000"
+    environment:
+      - NODE_ENV=${NODE_ENV}
+      - DB_HOST=db
+      - DB_USER=${POSTGRES_USER}
+      - DB_PASS=${POSTGRES_PASSWORD}
+    env_file:
+      - .env
+
+  db:
+    image: postgres:15
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+```
+
+### Example 4: Development with Hot Reload
+
+```yaml
+version: '3.8'
+
+services:
+  dev:
+    build:
+      context: .
+      target: development  # Use development stage from multi-stage Dockerfile
+    ports:
+      - "3000:3000"
+      - "9229:9229"  # Node debugger port
+    volumes:
+      - ./src:/app/src  # Mount source for hot reload
+      - /app/node_modules  # Don't override node_modules
+    environment:
+      - NODE_ENV=development
+      - DEBUG=app:*
+    command: npm run dev
+```
+
+### Docker Compose with Healthchecks
+
+```yaml
+version: '3.8'
+
+services:
+  web:
+    build: .
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  db:
+    image: postgres:15
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+```
+
+### Key Docker Compose Concepts
+
+**depends_on:** Controls service startup order (but doesn't wait for service to be "ready")
+
+**networks:** Isolate services, create custom networks
+
+**volumes:** Persist data, share data between services
+
+**environment:** Set environment variables
+
+**env_file:** Load environment variables from file
+
+**restart policies:**
+- `no`: Don't restart (default)
+- `always`: Always restart
+- `on-failure`: Restart on failure
+- `unless-stopped`: Always restart unless manually stopped
+
+### Docker Compose Override
+
+Create a `docker-compose.override.yml` for local development:
+
+```yaml
+version: '3.8'
+
+services:
+  web:
+    volumes:
+      - ./src:/app/src
+    environment:
+      - DEBUG=true
+```
+
+Docker Compose automatically merges `docker-compose.yml` and `docker-compose.override.yml`.
+
+## Docker Security Best Practices
+
+Security should be a primary concern when working with Docker. Here are essential best practices to secure your containers and images.
+
+### 1. Use Official and Verified Images
+
+Always prefer official images from trusted sources:
+
+```Dockerfile
+# Good - Official image
+FROM node:18-alpine
+
+# Avoid - Unknown source
+FROM randomuser/node
+```
+
+Verify image sources:
+
+```bash
+docker search --filter is-official=true nginx
+docker pull nginx  # Official images don't have username prefix
+```
+
+### 2. Run Containers as Non-Root User
+
+Running containers as root is a security risk. Create and use a non-root user:
+
+```Dockerfile
+FROM node:18-alpine
+
+# Create a non-root user
+RUN addgroup -g 1001 -S nodejs && \
+    adduser -S nodejs -u 1001
+
+# Set ownership
+WORKDIR /app
+COPY --chown=nodejs:nodejs . .
+
+# Switch to non-root user
+USER nodejs
+
+CMD ["node", "server.js"]
+```
+
+Verify user in running container:
+
+```bash
+docker exec [Container-ID] whoami
+```
+
+### 3. Use Specific Image Tags
+
+Never use `latest` tag in production:
+
+```Dockerfile
+# Bad - Unpredictable
+FROM node:latest
+
+# Good - Specific version
+FROM node:18.17.0-alpine3.18
+
+# Also good - Major version pinning
+FROM node:18-alpine
+```
+
+### 4. Scan Images for Vulnerabilities
+
+Use Docker Scout or other scanning tools:
+
+```bash
+# Scan an image for vulnerabilities
+docker scout cves my-image:latest
+
+# Get recommendations
+docker scout recommendations my-image:latest
+
+# Use Trivy (third-party tool)
+trivy image my-image:latest
+```
+
+### 5. Minimize Image Size and Attack Surface
+
+Use multi-stage builds and minimal base images:
+
+```Dockerfile
+# Use minimal base images
+FROM alpine:3.18  # ~5MB
+FROM node:18-alpine  # Smaller than node:18
+FROM gcr.io/distroless/nodejs:18  # Even smaller, no shell
+
+# Remove unnecessary packages
+RUN apk add --no-cache curl && \
+    rm -rf /var/cache/apk/*
+```
+
+### 6. Don't Store Secrets in Images
+
+Never hardcode secrets in Dockerfiles or images:
+
+```Dockerfile
+# Bad - Hardcoded secrets
+ENV API_KEY=abc123secret
+ENV DATABASE_PASSWORD=mypassword
+
+# Good - Use secrets at runtime
+# Pass via environment variables or Docker secrets
+```
+
+Use Docker secrets or environment variables:
+
+```bash
+# Pass secrets at runtime
+docker run -e API_KEY="${API_KEY}" my-image
+
+# Use Docker secrets (Swarm mode)
+echo "my-secret-value" | docker secret create api_key -
+docker service create --secret api_key my-service
+```
+
+### 7. Limit Container Resources
+
+Prevent resource exhaustion attacks:
+
+```bash
+# Limit memory and CPU
+docker run -m 512m --cpus="1.5" my-image
+
+# In docker-compose.yml
+services:
+  app:
+    image: my-app
+    deploy:
+      resources:
+        limits:
+          cpus: '1.5'
+          memory: 512M
+        reservations:
+          cpus: '0.5'
+          memory: 256M
+```
+
+### 8. Use Read-Only Filesystem
+
+Make container filesystem read-only when possible:
+
+```bash
+# Run with read-only root filesystem
+docker run --read-only --tmpfs /tmp my-image
+
+# In docker-compose.yml
+services:
+  app:
+    image: my-app
+    read_only: true
+    tmpfs:
+      - /tmp
+```
+
+### 9. Disable Unnecessary Capabilities
+
+Drop Linux capabilities you don't need:
+
+```bash
+# Drop all capabilities and add only what's needed
+docker run --cap-drop=ALL --cap-add=NET_BIND_SERVICE my-image
+
+# In docker-compose.yml
+services:
+  app:
+    cap_drop:
+      - ALL
+    cap_add:
+      - NET_BIND_SERVICE
+```
+
+### 10. Use Security Scanning in CI/CD
+
+Integrate security scanning in your pipeline:
+
+```yaml
+# GitHub Actions example
+- name: Build Docker image
+  run: docker build -t my-app:${{ github.sha }} .
+
+- name: Scan image
+  run: |
+    docker scout cves my-app:${{ github.sha }}
+    trivy image --severity HIGH,CRITICAL my-app:${{ github.sha }}
+```
+
+### 11. Keep Images Updated
+
+Regularly update base images and dependencies:
+
+```bash
+# Pull latest version of base image
+docker pull node:18-alpine
+
+# Rebuild your images
+docker build --no-cache -t my-app:latest .
+
+# Update all containers
+docker-compose pull
+docker-compose up -d
+```
+
+### 12. Use Docker Bench for Security
+
+Run Docker Bench Security to audit your Docker installation:
+
+```bash
+# Run Docker Bench for Security
+docker run --rm --net host --pid host --userns host --cap-add audit_control \
+  -v /var/lib:/var/lib \
+  -v /var/run/docker.sock:/var/run/docker.sock \
+  -v /etc:/etc --label docker_bench_security \
+  docker/docker-bench-security
+```
+
+### 13. Network Isolation
+
+Use custom networks to isolate containers:
+
+```bash
+# Create isolated networks
+docker network create --driver bridge frontend-net
+docker network create --driver bridge backend-net
+
+# Connect containers to appropriate networks
+docker run --network frontend-net web-app
+docker run --network backend-net database
+```
+
+### 14. Enable Docker Content Trust
+
+Sign and verify images:
+
+```bash
+# Enable Docker Content Trust
+export DOCKER_CONTENT_TRUST=1
+
+# Now all pulls and pushes require signatures
+docker pull my-image:latest  # Will verify signature
+docker push my-image:latest  # Will require signing
+```
+
+### 15. Secure Docker Daemon
+
+Configure Docker daemon securely:
+
+```json
+// /etc/docker/daemon.json
+{
+  "icc": false,
+  "log-level": "info",
+  "userland-proxy": false,
+  "no-new-privileges": true,
+  "live-restore": true
+}
+```
+
+### Security Checklist
+
+- [ ] Use official or trusted base images
+- [ ] Specify exact image versions (avoid `latest`)
+- [ ] Run containers as non-root user
+- [ ] Scan images for vulnerabilities regularly
+- [ ] Use multi-stage builds to minimize image size
+- [ ] Never store secrets in images
+- [ ] Limit container resources (CPU, memory)
+- [ ] Use read-only filesystems where possible
+- [ ] Keep images and dependencies updated
+- [ ] Implement network isolation
+- [ ] Drop unnecessary Linux capabilities
+- [ ] Enable security scanning in CI/CD
+- [ ] Use `.dockerignore` to exclude sensitive files
+- [ ] Implement proper logging and monitoring
+- [ ] Enable Docker Content Trust for production
+
+### Example: Secure Dockerfile Template
+
+```Dockerfile
+# Use specific version of minimal base image
+FROM node:18.17.0-alpine3.18 AS builder
+
+# Install only necessary build dependencies
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci --only=production && \
+    npm cache clean --force
+
+# Copy application code
+COPY . .
+RUN npm run build
+
+# Production stage with minimal image
+FROM node:18.17.0-alpine3.18
+
+# Add security labels
+LABEL security.scan="enabled" \
+      maintainer="security@example.com"
+
+# Create non-root user
+RUN addgroup -g 1001 -S nodejs && \
+    adduser -S nodejs -u 1001
+
+WORKDIR /app
+
+# Copy only necessary files from builder
+COPY --from=builder --chown=nodejs:nodejs /app/node_modules ./node_modules
+COPY --from=builder --chown=nodejs:nodejs /app/dist ./dist
+COPY --chown=nodejs:nodejs package*.json ./
+
+# Switch to non-root user
+USER nodejs
+
+# Expose port
+EXPOSE 3000
+
+# Add healthcheck
+HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
+  CMD node -e "require('http').get('http://localhost:3000/health', (r) => {process.exit(r.statusCode === 200 ? 0 : 1)})"
+
+# Run application
+CMD ["node", "dist/server.js"]
+```
 
 Swarm-Modus
 
